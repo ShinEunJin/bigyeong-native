@@ -9,7 +9,7 @@ const User = (props) => {
     <View style={styles.mainView}>
       <Text>User</Text>
       <Button
-        title="To User Screen"
+        title="To Home Screen"
         onPress={() => props.navigation.navigate("Home")}
       />
       <Text>{userName}</Text>

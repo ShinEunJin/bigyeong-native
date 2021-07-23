@@ -4,8 +4,8 @@ import photo from "../photo.jpg"
 
 const Home = (props) => {
   return (
-    <View /* style={styles.mainView} */>
-      <Text /* style={styles.mainText} */>Home Screen</Text>
+    <View style={styles.mainView}>
+      <Text style={styles.mainText}>Home Screen</Text>
       <Button
         title="To User Screen"
         onPress={() =>

@@ -1,29 +1,24 @@
 import React from "react"
-import { StyleSheet, Text, View } from "react-native"
+import { Linking, StyleSheet, Text, View } from "react-native"
 import { NavigationContainer } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
-import HomeScreen from "./src/Home"
-import UserScreen from "./src/User"
+import { createDrawerNavigator } from "@react-navigation/drawer"
+import Bottomtap from "./src/Navigator/Tap"
+import SideDrawer from "./src/SideDrawer"
 
 const Stack = createStackNavigator()
+const Drawer = createDrawerNavigator()
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: {
-            shadowColor: "yellow",
-            shadowOpacity: 0.5,
-            shadowOffset: {
-              height: 2,
-            },
-          },
-        }}
+      <Drawer.Navigator
+        drawerPosition="right"
+        drawerStyle={{ width: 150 }}
+        drawerContent={(props) => <SideDrawer {...props} />}
       >
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="User" component={UserScreen} />
-      </Stack.Navigator>
+        <Drawer.Screen name="Route" component={Bottomtap} />
+      </Drawer.Navigator>
     </NavigationContainer>
   )
 }
