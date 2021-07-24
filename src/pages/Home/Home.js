@@ -1,18 +1,13 @@
 import React from "react"
-import { View, Text, Button, StyleSheet, Image } from "react-native"
-import photo from "../photo.jpg"
+import { Animated, View, Text, StyleSheet, Image } from "react-native"
+import photo from "../../../longPhoto.jpg"
+import { themeColor } from "../../theme"
 
-const Home = (props) => {
+const Home = () => {
   return (
     <View style={styles.mainView}>
-      <Text style={styles.mainText}>Home Screen</Text>
-      <Button
-        title="To User Screen"
-        onPress={() =>
-          props.navigation.navigate("User", { userName: "ShinEunJin" })
-        }
-      />
       <Image style={styles.image} source={photo} resizeMode="contain" />
+      <Text style={styles.textStyle}>장소 확인</Text>
     </View>
   )
 }
@@ -22,10 +17,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: themeColor.defaultBackgroundColor,
   },
   image: {
     width: "100%",
     height: 400,
+  },
+  textStyle: {
+    color: themeColor.defaultFontColor,
   },
 })
 

@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
 import { createDrawerNavigator } from "@react-navigation/drawer"
 import Bottomtap from "./src/Navigator/Tap"
-import SideDrawer from "./src/SideDrawer"
+import SideDrawer from "./src/Navigator/SideDrawer"
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -12,11 +12,13 @@ const Drawer = createDrawerNavigator()
 export default function App() {
   return (
     <NavigationContainer>
+      {/* SideDrawer Navigator */}
       <Drawer.Navigator
         drawerPosition="right"
         drawerStyle={{ width: 150 }}
         drawerContent={(props) => <SideDrawer {...props} />}
       >
+        {/* Tap Navigator */}
         <Drawer.Screen name="Route" component={Bottomtap} />
       </Drawer.Navigator>
     </NavigationContainer>
