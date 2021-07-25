@@ -5,8 +5,9 @@ import Home from "../pages/Home/Home"
 import Icon from "react-native-vector-icons/FontAwesome"
 import FindBySearch from "../pages/Find/FindBySearch"
 import FindByMap from "../pages/Find/FindByMap"
+import TopTab from "./TopTab"
 
-const Tap = createBottomTabNavigator()
+const Tab = createBottomTabNavigator()
 
 const TabBarIcon = (focused, name) => {
   let iconName, iconSize
@@ -20,9 +21,9 @@ const TabBarIcon = (focused, name) => {
   return <Icon name={iconName} size={iconSize} />
 }
 
-const BottomTap = () => {
+const BottomTab = () => {
   return (
-    <Tap.Navigator
+    <Tab.Navigator
       tabBarOptions={{
         labelStyle: {
           paddingBottom: 5,
@@ -33,23 +34,23 @@ const BottomTap = () => {
         tabBarIcon: ({ focused }) => TabBarIcon(focused, route.name),
       })}
     >
-      <Tap.Screen
+      <Tab.Screen
         options={{ tabBarLabel: "홈" }}
         name="Home"
-        component={Home}
+        component={TopTab}
       />
-      <Tap.Screen
+      <Tab.Screen
         options={{ tabBarLabel: "검색" }}
         name="FindBySearch"
         component={FindBySearch}
       />
-      <Tap.Screen
+      <Tab.Screen
         options={{ tabBarLabel: "지도" }}
         name="FindByMap"
         component={FindByMap}
       />
-    </Tap.Navigator>
+    </Tab.Navigator>
   )
 }
 
-export default BottomTap
+export default BottomTab
