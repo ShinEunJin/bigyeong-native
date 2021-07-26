@@ -1,5 +1,5 @@
 import React from "react"
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native"
+import { ScrollView, StyleSheet, Text, View } from "react-native"
 import { CommonActions } from "@react-navigation/native"
 import Icon from "react-native-vector-icons/FontAwesome"
 

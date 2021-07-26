@@ -1,9 +1,10 @@
 import React from "react"
 import { StyleSheet, Text, View } from "react-native"
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs"
-import FindBySearch from "../pages/Find/FindBySearch"
-import FindByMap from "../pages/Find/FindByMap"
 import Home from "../pages/Home/Home"
+import Popular from "../pages/Category/Popular"
+import Summer from "../pages/Category/Summer"
+import Category from "../pages/Category/Category"
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -15,12 +16,36 @@ const TopTab = () => {
         indicatorStyle: styles.customIndicator,
       }}
     >
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="FindBySearch" component={FindBySearch} />
-      <Tab.Screen name="FindByMap" component={FindByMap} />
-      <Tab.Screen name="Hi" component={FindByMap} />
-      <Tab.Screen name="You" component={FindByMap} />
-      <Tab.Screen name="Lo" component={FindByMap} />
+      <Tab.Screen
+        name="new"
+        component={Home}
+        options={{ tabBarLabel: "최신" }}
+      />
+      <Tab.Screen
+        name="popular"
+        component={Category}
+        options={{ tabBarLabel: "인기" }}
+      />
+      <Tab.Screen
+        name="theme"
+        component={Category}
+        options={{ tabBarLabel: "테마" }}
+      />
+      <Tab.Screen
+        name="summer"
+        component={Category}
+        options={{ tabBarLabel: "여름" }}
+      />
+      <Tab.Screen
+        name="nature"
+        component={Category}
+        options={{ tabBarLabel: "자연" }}
+      />
+      <Tab.Screen
+        name="city"
+        component={Category}
+        options={{ tabBarLabel: "도시" }}
+      />
     </Tab.Navigator>
   )
 }
@@ -28,6 +53,12 @@ const TopTab = () => {
 const styles = StyleSheet.create({
   customIndicator: {
     height: 30,
+    width: 115,
+    marginHorizontal: "auto",
+    backgroundColor: "#F6AE99",
+    borderRadius: 15,
+    marginVertical: 10,
+    marginHorizontal: 15,
   },
 })
 
