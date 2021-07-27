@@ -2,8 +2,6 @@ import React from "react"
 import { StyleSheet, Text, View } from "react-native"
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs"
 import Home from "../pages/Home/Home"
-import Popular from "../pages/Category/Popular"
-import Summer from "../pages/Category/Summer"
 import Category from "../pages/Category/Category"
 
 const Tab = createMaterialTopTabNavigator()

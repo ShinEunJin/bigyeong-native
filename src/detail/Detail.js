@@ -1,14 +1,16 @@
 import React from "react"
 import { StyleSheet, Text, View } from "react-native"
 
-const Summer = () => {
+const Detail = (props) => {
+  console.log("hi")
+  console.log(props.route.params)
   return (
     <View>
-      <Text></Text>
+      <Text>Detail</Text>
     </View>
   )
 }
 
-export default Summer
-
 const styles = StyleSheet.create({})
+
+export default Detail

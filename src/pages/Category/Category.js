@@ -1,21 +1,37 @@
 import React, { useEffect } from "react"
-import { StyleSheet, ScrollView, Image, Text, View } from "react-native"
+import {
+  TouchableHighlight,
+  StyleSheet,
+  ScrollView,
+  Image,
+  Text,
+  View,
+} from "react-native"
 import data from "../../db/data"
 import { themeColor } from "../../theme"
+import { useNavigation } from "@react-navigation/native"
 
 const Category = (props) => {
   let category = props.route.name
+
+  const navigation = useNavigation()
+
   return (
     <ScrollView style={styles.mainView}>
       <View style={styles.imageColumn}>
-        <View style={styles.imageContainer}>
+        <TouchableHighlight
+          style={styles.imageContainer}
+          onPress={() => {
+            navigation.navigate("Detail", { category })
+          }}
+        >
           <Image
             style={styles.image}
             source={{
               uri: data[category],
             }}
           />
-        </View>
+        </TouchableHighlight>
       </View>
     </ScrollView>
   )
