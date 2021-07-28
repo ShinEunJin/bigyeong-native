@@ -26,11 +26,15 @@ const SideDrawer = (props) => {
           </View>
           {/* 검색 */}
           <View style={styles.navItemStyle}>
-            <Text onPress={navigateToScreen("FindBySearch", props)}>검색</Text>
+            <Text onPress={() => navigateToScreen("FindBySearch", props)}>
+              검색
+            </Text>
           </View>
           {/* 지도 */}
           <View style={styles.navItemStyle}>
-            <Text onPress={navigateToScreen("FindByMap", props)}>지도</Text>
+            <Text onPress={() => navigateToScreen("FindByMap", props)}>
+              지도
+            </Text>
           </View>
         </View>
         {/* Upload Section */}
@@ -40,7 +44,7 @@ const SideDrawer = (props) => {
           </View>
           {/* 업로드 */}
           <View style={styles.navItemStyle}>
-            <Text onPress={navigateToScreen("FindBySearch", props)}>
+            <Text onPress={() => navigateToScreen("FindBySearch", props)}>
               업로드
             </Text>
           </View>
@@ -52,13 +56,15 @@ const SideDrawer = (props) => {
           </View>
           {/* 찜한 사진*/}
           <View style={styles.navItemStyle}>
-            <Text onPress={navigateToScreen("FindBySearch", props)}>
+            <Text onPress={() => navigateToScreen("FindBySearch", props)}>
               찜목록
             </Text>
           </View>
           {/* 올린 사진 */}
           <View style={styles.navItemStyle}>
-            <Text onPress={navigateToScreen("FindByMap", props)}>프로필</Text>
+            <Text onPress={() => navigateToScreen("FindByMap", props)}>
+              프로필
+            </Text>
           </View>
         </View>
         {/* Setting Section */}
@@ -68,7 +74,7 @@ const SideDrawer = (props) => {
           </View>
           {/* 환경설정 */}
           <View style={styles.navItemStyle}>
-            <Text onPress={navigateToScreen("FindBySearch", props)}>
+            <Text onPress={() => navigateToScreen("FindBySearch", props)}>
               Setting
             </Text>
           </View>

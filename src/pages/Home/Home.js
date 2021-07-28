@@ -5,7 +5,7 @@ import { themeColor } from "../../theme"
 
 const Home = () => {
   return (
-    <ScrollView style={styles.mainView}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.mainView}>
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}
@@ -18,7 +18,7 @@ const Home = () => {
         <Image
           style={styles.image}
           source={{
-            uri: data.new,
+            uri: data.New,
           }}
         />
       </View>
@@ -26,7 +26,7 @@ const Home = () => {
         <Image
           style={styles.image}
           source={{
-            uri: data.popular,
+            uri: data.Popular,
           }}
         />
       </View>
@@ -34,7 +34,7 @@ const Home = () => {
         <Image
           style={styles.image}
           source={{
-            uri: data.summer,
+            uri: data.Summer,
           }}
         />
       </View>

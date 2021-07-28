@@ -10,6 +10,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer"
 import BottomTab from "./Navigator/BottomTab"
 import SideDrawer from "./Navigator/SideDrawer"
 import Icon from "react-native-vector-icons/Entypo"
+
 import logo from "../logo1.png"
 
 const Stack = createStackNavigator()

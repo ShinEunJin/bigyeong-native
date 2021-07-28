@@ -7,12 +7,13 @@ import {
   Text,
   View,
 } from "react-native"
+import { useNavigation, useRoute } from "@react-navigation/native"
+
 import data from "../../db/data"
 import { themeColor } from "../../theme"
-import { useNavigation } from "@react-navigation/native"
 
-const Category = (props) => {
-  let category = props.route.name
+const Category = () => {
+  const { name } = useRoute()
 
   const navigation = useNavigation()
 
@@ -22,13 +23,13 @@ const Category = (props) => {
         <TouchableHighlight
           style={styles.imageContainer}
           onPress={() => {
-            navigation.navigate("Detail", { category })
+            navigation.navigate("Detail", { name })
           }}
         >
           <Image
             style={styles.image}
             source={{
-              uri: data[category],
+              uri: data[name],
             }}
           />
         </TouchableHighlight>
