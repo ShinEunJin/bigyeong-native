@@ -1,17 +1,11 @@
 import React from "react"
 import { ScrollView, StyleSheet, Text, View } from "react-native"
-import { CommonActions } from "@react-navigation/native"
+import { CommonActions, useNavigation } from "@react-navigation/native"
 import Icon from "react-native-vector-icons/FontAwesome"
 
-const navigateToScreen = (route, props) => () => {
-  props.navigation.dispatch(
-    CommonActions.navigate({
-      name: route,
-      params: {},
-    })
-  )
-}
-const SideDrawer = (props) => {
+const SideDrawer = () => {
+  const navigation = useNavigation()
+
   return (
     <View style={styles.mainContainer}>
       <ScrollView>
@@ -26,15 +20,13 @@ const SideDrawer = (props) => {
           </View>
           {/* 검색 */}
           <View style={styles.navItemStyle}>
-            <Text onPress={() => navigateToScreen("FindBySearch", props)}>
+            <Text onPress={() => navigation.navigate("FindBySearch")}>
               검색
             </Text>
           </View>
           {/* 지도 */}
           <View style={styles.navItemStyle}>
-            <Text onPress={() => navigateToScreen("FindByMap", props)}>
-              지도
-            </Text>
+            <Text onPress={() => navigation.navigate("FindByMap")}>지도</Text>
           </View>
         </View>
         {/* Upload Section */}
@@ -44,9 +36,7 @@ const SideDrawer = (props) => {
           </View>
           {/* 업로드 */}
           <View style={styles.navItemStyle}>
-            <Text onPress={() => navigateToScreen("FindBySearch", props)}>
-              업로드
-            </Text>
+            <Text onPress={() => navigation.navigate("Upload")}>업로드</Text>
           </View>
         </View>
         {/* User Section */}
@@ -56,15 +46,11 @@ const SideDrawer = (props) => {
           </View>
           {/* 찜한 사진*/}
           <View style={styles.navItemStyle}>
-            <Text onPress={() => navigateToScreen("FindBySearch", props)}>
-              찜목록
-            </Text>
+            <Text>찜목록</Text>
           </View>
           {/* 올린 사진 */}
           <View style={styles.navItemStyle}>
-            <Text onPress={() => navigateToScreen("FindByMap", props)}>
-              프로필
-            </Text>
+            <Text>프로필</Text>
           </View>
         </View>
         {/* Setting Section */}
@@ -74,9 +60,7 @@ const SideDrawer = (props) => {
           </View>
           {/* 환경설정 */}
           <View style={styles.navItemStyle}>
-            <Text onPress={() => navigateToScreen("FindBySearch", props)}>
-              Setting
-            </Text>
+            <Text>Setting</Text>
           </View>
         </View>
       </ScrollView>

@@ -1,16 +1,31 @@
 import React from "react"
-import { StyleSheet, Text, View } from "react-native"
+import { Image, StyleSheet, Text, View } from "react-native"
 
 const Detail = (props) => {
-  console.log("hi")
-  console.log(props.route.params)
+  const data = props.route.params
+
   return (
-    <View>
-      <Text>Detail</Text>
+    <View style={styles.mainContainer}>
+      <Text>{data.name}</Text>
+      <Image
+        style={styles.imageStyle}
+        source={{ uri: data.imgSrc }}
+        resizeMode="contain"
+      />
     </View>
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  imageStyle: {
+    height: 500,
+    width: "100%",
+  },
+})
 
 export default Detail

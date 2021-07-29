@@ -12,11 +12,11 @@ import { componentName } from "../theme"
 import FindBySearch from "../pages/Find/FindBySearch"
 import FindByMap from "../pages/Find/FindByMap"
 import TopTab from "./TopTab"
-import Detail from "../pages/Detail/Detail"
+import Upload from "../pages/Upload/Upload"
 
 const Tab = createBottomTabNavigator()
 
-const Tabbar = () => {
+const TabBar = () => {
   const navigation = useNavigation()
   const route = useRoute()
   // bottom tab의 현재 위치 아이콘 하이라이트 주기
@@ -75,13 +75,13 @@ const Tabbar = () => {
 
 const BottomTab = () => {
   return (
-    /* 홈, 검색, 지도 만 하단 탭에 있고 Detail은 제외 */
-    <Tab.Navigator tabBar={() => <Tabbar />}>
+    <Tab.Navigator tabBar={() => <TabBar />}>
+      {/* TabBar에 있는 컴포넌트 */}
       <Tab.Screen name="Home" component={TopTab} />
       <Tab.Screen name="FindBySearch" component={FindBySearch} />
       <Tab.Screen name="FindByMap" component={FindByMap} />
-      {/* 컴포넌트만 사용 */}
-      <Tab.Screen name="Detail" component={Detail} />
+      {/* TabBar에 없는 컴포넌트 */}
+      <Tab.Screen name="Upload" component={Upload} />
     </Tab.Navigator>
   )
 }
