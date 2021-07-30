@@ -13,6 +13,7 @@ import {
   CommonActions,
 } from "@react-navigation/native"
 
+import { firestore } from "../../../firebase"
 import data from "../../db/data"
 import { themeColor } from "../../theme"
 
@@ -24,6 +25,19 @@ const Category = () => {
   return (
     <ScrollView style={styles.mainView}>
       <View style={styles.imageColumn}>
+        <TouchableHighlight
+          style={styles.imageContainer}
+          onPress={() => {
+            navigation.navigate("Detail", { name, imgSrc: data[name] })
+          }}
+        >
+          <Image
+            style={styles.image}
+            source={{
+              uri: data[name],
+            }}
+          />
+        </TouchableHighlight>
         <TouchableHighlight
           style={styles.imageContainer}
           onPress={() => {
@@ -51,13 +65,13 @@ const styles = StyleSheet.create({
   },
   imageColumn: {
     flex: 1,
-    flexDirection: "row",
     width: "100%",
     marginBottom: 20,
   },
   imageContainer: {
     flex: 1,
     alignItems: "center",
+    marginBottom: 30,
   },
   image: {
     width: "90%",
