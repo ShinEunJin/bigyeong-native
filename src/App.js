@@ -1,5 +1,12 @@
 import React from "react"
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  InteractionManager,
+} from "react-native"
 import {
   DrawerActions,
   NavigationContainer,
@@ -18,6 +25,7 @@ const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
 
 function App() {
+  // 이 코드들이 없으면 Setting Time Warning이 뜬다.
   //#region ERROR Solution: Setting a timer for a long period of time, i.e. multiple minutes,
   const _setTimeout = global.setTimeout
   const _clearTimeout = global.clearTimeout

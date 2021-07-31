@@ -1,21 +1,17 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import {
+  ActivityIndicator,
   Button,
-  Image,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
-  InteractionManager,
-  Pressable,
 } from "react-native"
-import * as ImagePicker from "expo-image-picker"
-import { Camera } from "expo-camera"
-import Icon from "react-native-vector-icons/FontAwesome"
 
 import { firestore } from "../../../firebase"
 import { storage } from "../../../firebase"
+import ImageUploadZone from "./ImageUploadZone"
 
 const Upload = () => {
   const [name, setName] = useState("")
@@ -24,8 +20,9 @@ const Upload = () => {
   const [category, setCategory] = useState("")
   const [imageUri, setImageUri] = useState(null) // ""이렇게 문자열로 하면 <Text>에러남
   const [loading, setLoading] = useState(false)
-  const [imageLoading, setImageLoading] = useState(false)
+  const [finish, setFinish] = useState(false) // 자식 컴포넌트에 업로드가 끝났다고 알리는 state
 
+  // 업로드 함수
   const onUploadData = async () => {
     try {
       setLoading(true)
@@ -38,6 +35,7 @@ const Upload = () => {
         region,
         likes: 0,
         views: 0,
+        created: Date.now(),
       })
     } catch (error) {
       console.log(error)
@@ -48,24 +46,13 @@ const Upload = () => {
       setRegion("")
       setLocation("")
       setName("")
+      setFinish(Date.now()) // 임의의 수를 넣어주기 위해 Date.now()를 넣었다. 하위 컴포넌트의 useEffect를 위해서
       alert("성공적으로 업로드 하였습니다.")
     }
   }
 
-  // 카메라 갤러리 열기
-  const openGallery = async () => {
-    try {
-      setImageLoading(true)
-      const photo = await ImagePicker.launchImageLibraryAsync()
-      setImageUri(photo.uri)
-    } catch (error) {
-      alert("사진을 업로드하는데 실패하였습니다.")
-    } finally {
-      setImageLoading(false)
-    }
-  }
-
   // expo firebase에서 가져온 코드 - 업로드한 이미지의 uri를 반환한다
+  // 최종적으로 컨텐츠 업로드 할 때 uri 변환하도록 넣기
   const uploadImageAsync = async (uri) => {
     const blob = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()
@@ -91,47 +78,29 @@ const Upload = () => {
     return await snapshot.ref.getDownloadURL()
   }
 
+  //자식 컴포넌트에서 받은 imageUri 업데이트
+  const updateImage = (newImage) => {
+    setImageUri(newImage)
+  }
+
   return (
     <View style={{ position: "relative" }}>
+      {/* 업로딩 */}
       {loading && (
-        <View
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 20 }}>uploading...</Text>
+        <View style={styles.uploadingStyle}>
+          <ActivityIndicator size="large" color="black" />
         </View>
       )}
+      {/* 메인 스크린 */}
       <ScrollView
         contentContainerStyle={[
           styles.mainContainer,
-          { opacity: loading ? 0.2 : 1 },
+          { opacity: loading ? 0.4 : 1 },
         ]}
       >
-        {imageUri ? (
-          <View style={[styles.galleyBtn, { position: "relative" }]}>
-            <Image style={styles.imageStyle} source={{ uri: imageUri }} />
-            <Pressable
-              style={styles.galleyDeleteBtn}
-              onPress={() => setImageUri(null)}
-            >
-              <Icon name="times" size={13} style={{ color: "white" }} />
-            </Pressable>
-          </View>
-        ) : (
-          <Pressable
-            onPress={openGallery}
-            style={[styles.galleyBtn, { borderWidth: 1 }]}
-          >
-            <Icon name="plus" size={20} />
-          </Pressable>
-        )}
+        {/* 이미지 업로드 버튼 */}
+        <ImageUploadZone updateImage={updateImage} finish={finish} />
+        {/* input 부분 */}
         <TextInput
           autoCapitalize="none"
           style={styles.inputStyle}
@@ -175,34 +144,18 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: "center",
   },
-  galleryText: {
-    fontSize: 11,
-    opacity: 0.6,
-    marginTop: 40,
-  },
-  galleyBtn: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: "90%",
-    height: 220,
-    marginVertical: 30,
-    borderRadius: 10,
-  },
-  galleyDeleteBtn: {
+  uploadingStyle: {
     position: "absolute",
-    top: 10,
-    right: 10,
-    width: 20,
-    height: 20,
-    borderRadius: 20,
-    backgroundColor: "black",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     justifyContent: "center",
     alignItems: "center",
-  },
-  imageStyle: {
     width: "100%",
-    height: 220,
-    borderRadius: 10,
+    height: 500,
+    zIndex: 10,
+    backgroundColor: "rgba(255, 255, 255, 0.7)",
   },
   inputStyle: {
     width: "70%",

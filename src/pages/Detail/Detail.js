@@ -2,14 +2,14 @@ import React from "react"
 import { Image, StyleSheet, Text, View } from "react-native"
 
 const Detail = (props) => {
-  const data = props.route.params
+  const { item } = props.route.params
 
   return (
     <View style={styles.mainContainer}>
-      <Text>{data.name}</Text>
+      <Text>{item.name}</Text>
       <Image
         style={styles.imageStyle}
-        source={{ uri: data.imgSrc }}
+        source={{ uri: item.uri }}
         resizeMode="contain"
       />
     </View>

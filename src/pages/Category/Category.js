@@ -1,58 +1,62 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import {
   TouchableHighlight,
   StyleSheet,
-  ScrollView,
   Image,
-  Text,
   View,
+  FlatList,
 } from "react-native"
-import {
-  useNavigation,
-  useRoute,
-  CommonActions,
-} from "@react-navigation/native"
+import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native"
 
 import { firestore } from "../../../firebase"
-import data from "../../db/data"
 import { themeColor } from "../../theme"
 
 const Category = () => {
   const { name } = useRoute()
-
+  const isFocused = useIsFocused()
   const navigation = useNavigation()
 
+  const [contents, setContents] = useState([])
+
+  const getData = async () => {
+    const places = firestore.collection("places")
+    let newContents = []
+    const result = await places
+      .where("category", "==", name.toLowerCase())
+      .get()
+    result.forEach((item) => {
+      newContents.push(item.data())
+    })
+    setContents([...newContents])
+  }
+
+  useEffect(() => {
+    getData()
+  }, [isFocused])
+
+  const renderItem = ({ item }) => {
+    return (
+      <TouchableHighlight
+        onPress={() => navigation.navigate("Detail", { item })}
+        style={styles.imageContainer}
+      >
+        {item && <Image style={styles.image} source={{ uri: item.uri }} />}
+      </TouchableHighlight>
+    )
+  }
+
   return (
-    <ScrollView style={styles.mainView}>
+    <View style={styles.mainView}>
       <View style={styles.imageColumn}>
-        <TouchableHighlight
-          style={styles.imageContainer}
-          onPress={() => {
-            navigation.navigate("Detail", { name, imgSrc: data[name] })
-          }}
-        >
-          <Image
-            style={styles.image}
-            source={{
-              uri: data[name],
-            }}
+        {isFocused && contents.length > 0 && (
+          <FlatList
+            data={contents}
+            keyExtractor={(item) => item.created || Math.random()}
+            renderItem={renderItem}
           />
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.imageContainer}
-          onPress={() => {
-            navigation.navigate("Detail", { name, imgSrc: data[name] })
-          }}
-        >
-          <Image
-            style={styles.image}
-            source={{
-              uri: data[name],
-            }}
-          />
-        </TouchableHighlight>
+        )}
       </View>
-    </ScrollView>
+    </View>
   )
 }
 
@@ -77,6 +81,7 @@ const styles = StyleSheet.create({
     width: "90%",
     height: 220,
     borderRadius: 10,
+    backgroundColor: "gray",
   },
   textStyle: {
     color: themeColor.defaultFontColor,

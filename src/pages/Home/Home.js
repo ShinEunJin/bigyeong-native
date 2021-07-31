@@ -6,14 +6,15 @@ import {
   Image,
   ScrollView,
   FlatList,
+  ActivityIndicator,
 } from "react-native"
 
 import { themeColor } from "../../theme"
 import { firestore } from "../../../firebase"
 
 const Home = () => {
-  const [list, setList] = useState([])
-  const [content, setContent] = useState(null)
+  const [images, setImages] = useState([])
+  const [loading, setLoading] = useState(false)
 
   const renderItem = ({ item }) => {
     return (
@@ -24,20 +25,20 @@ const Home = () => {
   }
 
   const getData = async () => {
-    /* try {
+    try {
+      setLoading(true)
       const places = firestore.collection("places")
-      let result = await places.get()
-      let newList = []
+      const result = await places.get()
+      let newImages = []
       result.forEach((item) => {
-        newList.push(item.data().image)
+        newImages.push(item.data().uri)
       })
-      setList([...newList])
+      setImages([...newImages])
     } catch (error) {
-      console.log(error)
-    } */
-    const places = firestore.collection("places").doc("4GBjlDVydr7KH7mWA0mF")
-    let place = await places.get()
-    setContent(place.data())
+      alert("데이터를 받는데 실패 하였습니다.")
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -47,17 +48,14 @@ const Home = () => {
   return (
     <View style={styles.mainView}>
       <View style={styles.imageColumn}>
-        {/* <FlatList
-          data={list}
-          keyExtractor={(item) => item}
-          renderItem={renderItem}
-          style={styles.mainView}
-        /> */}
-        <View style={styles.imageContainer}>
-          {content && (
-            <Image style={styles.image} source={{ uri: content.image }} />
-          )}
-        </View>
+        {images.length > 0 && (
+          <FlatList
+            data={images}
+            keyExtractor={(item) => item.created || Math.random()}
+            renderItem={renderItem}
+          />
+        )}
+        {loading && <ActivityIndicator color="black" />}
       </View>
     </View>
   )
@@ -84,6 +82,7 @@ const styles = StyleSheet.create({
     width: "90%",
     height: 220,
     borderRadius: 10,
+    backgroundColor: "gray",
   },
   textStyle: {
     color: themeColor.defaultFontColor,
