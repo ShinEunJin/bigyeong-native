@@ -8,8 +8,8 @@ import {
   Dimensions,
 } from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
-import { themeColor } from "../../theme"
 
+import { themeColor } from "../../theme"
 import { updateView, updateLike } from "./info" // 여기서 조회수 및 좋아요 데이터를 받는다
 
 const Detail = (props) => {
@@ -57,10 +57,10 @@ const Detail = (props) => {
           </View>
         </View>
         <View style={styles.likeStyle}>
-          <Icon name="heart-o" size={30} color="red" />
+          <Icon name="heart-o" size={25} color="red" />
         </View>
         <View style={styles.mapStyle}>
-          <Icon name="map" size={28} color="black" />
+          <Icon name="map-o" size={22} color="black" />
         </View>
       </View>
     </View>

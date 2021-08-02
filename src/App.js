@@ -16,20 +16,21 @@ import { createStackNavigator } from "@react-navigation/stack"
 import { createDrawerNavigator } from "@react-navigation/drawer"
 import MenuIcon from "react-native-vector-icons/Entypo"
 
-import * as SecureStore from "expo-secure-store"
-import * as Device from "expo-device"
-import Constants from "expo-constants"
-
 import BottomTab from "./Navigator/BottomTab"
 import SideDrawer from "./Navigator/SideDrawer"
 import logo from "../logo1.png"
 import Detail from "./pages/Detail/Detail"
+import generateSecureKey from "./utils/generateKey"
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
 
 function App() {
-  console.log(SecureStore.keychainAccessible)
+  // expo에서 iOS의 고유 디바이스 정보를 가져올 수 없으므로 secure store로 직접 키를 만들었다.
+  // 원래는 ios만 사용하려 했으나 안드로이드 키를 굳이 쓸 필요도 없고 플랫폼 별로 다르게 쓰면 번거로우니
+  // secure store key로 통일, ./utils/generateKey 참조
+  generateSecureKey()
+
   // 이 코드들이 없으면 Setting Time Warning이 뜬다.
   //#region ERROR Solution: Setting a timer for a long period of time, i.e. multiple minutes,
   const _setTimeout = global.setTimeout
