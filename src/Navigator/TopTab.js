@@ -48,7 +48,7 @@ const TabBar = ({ state }) => {
 const TopTab = () => {
   return (
     <Tab.Navigator tabBar={(props) => <TabBar {...props} />}>
-      <Tab.Screen name={componentName.new} component={Home} />
+      <Tab.Screen name={componentName.new} component={Category} />
       {/* <Tab.Screen name={componentName.popular} component={Category} /> */}
       <Tab.Screen name={componentName.theme} component={Category} />
       <Tab.Screen name={componentName.nature} component={Category} />

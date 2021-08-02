@@ -19,15 +19,26 @@ const Category = () => {
   const [contents, setContents] = useState([])
 
   const getData = async () => {
-    const places = firestore.collection("places")
-    let newContents = []
-    const result = await places
-      .where("category", "==", name.toLowerCase())
-      .get()
-    result.forEach((item) => {
-      newContents.push(item.data())
-    })
-    setContents([...newContents])
+    try {
+      const places = firestore.collection("places")
+      let newContents = []
+      if (name === "New") {
+        const data = await places.get()
+        data.forEach((item) => {
+          newContents.push(item.data())
+        })
+      } else {
+        const data = await places
+          .where("category", "==", name.toLowerCase()) // category 나누기
+          .get()
+        data.forEach((item) => {
+          newContents.push(item.data())
+        })
+      }
+      setContents([...newContents])
+    } catch (error) {
+      alert("데이터를 불러오는데 실패하였습니다.")
+    }
   }
 
   useEffect(() => {
@@ -51,7 +62,7 @@ const Category = () => {
         {isFocused && contents.length > 0 && (
           <FlatList
             data={contents}
-            keyExtractor={(item) => item.created || Math.random()}
+            keyExtractor={(item, index) => index.toString()}
             renderItem={renderItem}
           />
         )}

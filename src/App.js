@@ -14,10 +14,14 @@ import {
 } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
 import { createDrawerNavigator } from "@react-navigation/drawer"
+import MenuIcon from "react-native-vector-icons/Entypo"
+
+import * as SecureStore from "expo-secure-store"
+import * as Device from "expo-device"
+import Constants from "expo-constants"
+
 import BottomTab from "./Navigator/BottomTab"
 import SideDrawer from "./Navigator/SideDrawer"
-import Icon from "react-native-vector-icons/Entypo"
-
 import logo from "../logo1.png"
 import Detail from "./pages/Detail/Detail"
 
@@ -25,6 +29,7 @@ const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
 
 function App() {
+  console.log(SecureStore.keychainAccessible)
   // 이 코드들이 없으면 Setting Time Warning이 뜬다.
   //#region ERROR Solution: Setting a timer for a long period of time, i.e. multiple minutes,
   const _setTimeout = global.setTimeout
@@ -96,7 +101,7 @@ function App() {
             navigation.dispatch(DrawerActions.toggleDrawer())
           }}
         >
-          <Icon name="menu" size={30} />
+          <MenuIcon name="menu" size={30} />
         </TouchableOpacity>
       </View>
     )
@@ -145,6 +150,7 @@ function App() {
           options={{
             headerTitle: () => null,
             headerTransparent: true,
+            headerTintColor: "gray",
           }}
           name="Detail"
           component={Detail}
@@ -153,14 +159,5 @@ function App() {
     </NavigationContainer>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-})
 
 export default App

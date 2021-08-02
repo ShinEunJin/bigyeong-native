@@ -27,16 +27,19 @@ const Upload = () => {
     try {
       setLoading(true)
       const uri = await uploadImageAsync(imageUri) // image picker로 받은 uri를 firebase storage에 uri 변환 시켜서 저장
-      await firestore.collection("places").add({
-        name,
-        uri,
-        category,
-        location,
-        region,
-        likes: 0,
-        views: 0,
-        created: Date.now(),
-      })
+      await firestore
+        .collection("places")
+        .doc(`${category}_${region}_${name.trim().substring(0, 4)}`)
+        .set({
+          name,
+          uri,
+          category,
+          location,
+          region,
+          likes: 0,
+          views: 0,
+          created: Date.now(),
+        })
     } catch (error) {
       console.log(error)
     } finally {
