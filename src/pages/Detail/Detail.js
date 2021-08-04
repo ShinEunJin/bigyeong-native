@@ -39,7 +39,7 @@ const Detail = (props) => {
       </View>
       <View style={[styles.infoContainer, { height: screenHeight * 0.2 }]}>
         <Text style={[styles.titleStyle, { marginTop: screenHeight * 0.04 }]}>
-          {place.name}
+          {place.title}
         </Text>
         <Text
           style={[styles.locationStyle, { marginTop: screenHeight * 0.02 }]}

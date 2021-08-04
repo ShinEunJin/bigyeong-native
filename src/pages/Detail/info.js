@@ -6,7 +6,7 @@ import { firestore } from "../../../firebase"
 export const updateView = async (item) => {
   const placeRef = firestore
     .collection("places")
-    .doc(`${item.category}_${item.region}_${item.name.trim().substring(0, 4)}`)
+    .doc(`${item.category}_${item.region}_${item.id}`)
   try {
     await placeRef.update({
       views: firebase.firestore.FieldValue.increment(1),
@@ -23,7 +23,7 @@ export const updateView = async (item) => {
 export const updateLike = async (item, alreadyLike) => {
   const placeRef = firestore
     .collection("places")
-    .doc(`${item.category}_${item.region}_${item.name.trim().substring(0, 4)}`)
+    .doc(`${item.category}_${item.region}_${item.id}`)
   try {
     await placeRef.update({
       // 이미 좋아요 눌렀으면 -1 증가 아니면 1

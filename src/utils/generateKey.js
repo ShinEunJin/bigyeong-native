@@ -5,7 +5,20 @@ import moment from "moment"
 import { firestore } from "../../firebase"
 
 const generateSecureKey = async () => {
+  // 키 값 가져오기
   const key = await SecureStore.getItemAsync("key")
+
+  // 키 값은 있는데 혹여나 유저 데이터가 삭제 되었을 경우 다시 생성
+  const userRef = firestore.collection("users").doc(key)
+  const user = await userRef.get()
+  if (!user.exists) {
+    await firestore.collection("users").doc(key).set({
+      uploads: [],
+      likes: [],
+      created: moment().format(),
+    })
+  }
+
   if (!key) {
     try {
       let random = Random.getRandomBytes(10).join("")
