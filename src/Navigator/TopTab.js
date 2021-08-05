@@ -3,7 +3,6 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs"
 import { useNavigation } from "@react-navigation/native"
 
-import Home from "../pages/Home/Home"
 import Category from "../pages/Category/Category"
 import { themeColor, componentName } from "../theme"
 

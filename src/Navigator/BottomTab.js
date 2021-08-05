@@ -13,6 +13,7 @@ import FindBySearch from "../pages/Find/FindBySearch"
 import FindByMap from "../pages/Find/FindByMap"
 import TopTab from "./TopTab"
 import Upload from "../pages/Upload/Upload"
+import Like from "../pages/Like/Like"
 
 const Tab = createBottomTabNavigator()
 
@@ -82,6 +83,7 @@ const BottomTab = () => {
       <Tab.Screen name="FindByMap" component={FindByMap} />
       {/* TabBar에 없는 컴포넌트 */}
       <Tab.Screen name="Upload" component={Upload} />
+      <Tab.Screen name="Like" component={Like} />
     </Tab.Navigator>
   )
 }

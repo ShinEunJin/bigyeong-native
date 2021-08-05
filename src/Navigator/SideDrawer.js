@@ -46,7 +46,7 @@ const SideDrawer = () => {
           </View>
           {/* 찜한 사진*/}
           <View style={styles.navItemStyle}>
-            <Text>찜목록</Text>
+            <Text onPress={() => navigation.navigate("Like")}>찜목록</Text>
           </View>
           {/* 올린 사진 */}
           <View style={styles.navItemStyle}>
