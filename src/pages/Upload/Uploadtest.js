@@ -13,6 +13,7 @@ import {
 import moment from "moment"
 import * as Random from "expo-random"
 import * as SecureStore from "expo-secure-store"
+import NetInfo from "@react-native-community/netinfo"
 
 import { firestore } from "../../../firebase"
 import { storage } from "../../../firebase"
@@ -88,6 +89,7 @@ const Upload = () => {
 
       //image picker uri를 firebase storage uri로 변환
       // timeSet은 시간초과 시 이벤트 발생
+      let start = Date.now()
       let timeSet
       timeSet = setTimeout(() => {
         setTimeMessage(true)
@@ -95,6 +97,8 @@ const Upload = () => {
       uri = await uploadImageAsync(imageUri)
       setTimeMessage(false)
       clearTimeout(timeSet)
+      let end = Date.now()
+      console.log(end - start)
 
       // firestore에 place 생성
       await firestore
@@ -124,6 +128,7 @@ const Upload = () => {
         // 위 처럼 하면 user에 컨텐츠가 추가가 안되지만 places에서는 저장이 됨 이거 수정 요망
       })
 
+      throw "error"
       setImageUri(null)
       setCategory("")
       setRegion("")
@@ -137,22 +142,22 @@ const Upload = () => {
       console.log(error)
       // 에러시 storage에 이미지 제거
       let imageRef = storage.ref().child("image/" + randomId)
-      if (imageRef) await imageRef.delete()
+      await imageRef.delete()
+
       // firestore의 places에 해당 문서 제거
       let placeRef = firestore
-        .collection("places")
+        .collection("users")
         .doc(`${category}_${region}_${randomId}`)
-      if (placeRef) await placeRef.delete()
-      // firestore의 users에 uploads 해당 요소 제거
-      let userRef = firestore.collection("users").doc(writer)
-      await firestore.runTransaction(async (t) => {
-        const doc = await t.get(userRef)
-        let newUpload = doc.data().uploads.filter((target) => {
-          return target !== randomId
-        })
-        await t.update(userRef, { uploads: newUpload })
-      })
+      await placeRef.delete()
 
+      // firestore의 users에 해당 uploads 제거
+      console.log(writer)
+      let userRef = firestore.collection("users").doc(writer)
+      if (userRef) {
+        let te = await userRef.get()
+        let test = await te.data()
+        console.log(test)
+      }
       if (uri === null) {
         setImageUri(null)
         return alert("이미지를 업데이트 할 수 없습니다")
@@ -192,15 +197,15 @@ const Upload = () => {
       {/* 업로딩 */}
       {loading && (
         <View style={[styles.uploadingStyle, { height: screenHeight }]}>
+          {/* 로딩 바*/}
           {timeMessage && (
-            <Text style={styles.timeDelay}>
-              네트워크 속도가 느려 이미지를 업로드하는데 시간이 다소 걸릴 수
+            <Text>
+              네트워크 속도가 느려 이미지를 다운하는데 시간이 다소 걸릴 수
               있습니다
             </Text>
           )}
-          {/* 로딩 바*/}
           <ActivityIndicator
-            style={{ marginBottom: 100 }}
+            style={{ marginBottom: 20 }}
             size="large"
             color="black"
           />
@@ -212,6 +217,7 @@ const Upload = () => {
         <ImageUploadZone updateImage={updateImage} finish={finish} />
 
         {/* input 부분 */}
+        <Button title="test" onPress={deleteTest} />
 
         {/* 제목 입력 */}
         <View style={styles.inputContainer}>
@@ -301,11 +307,6 @@ const styles = StyleSheet.create({
     width: "100%",
     zIndex: 10,
     backgroundColor: "rgba(255, 255, 255, 0.9)",
-  },
-  timeDelay: {
-    width: "70%",
-    paddingBottom: 20,
-    textAlign: "center",
   },
   inputContainer: {
     flex: 1,

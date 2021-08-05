@@ -11,7 +11,15 @@ const CheckBox = ({ style, data, updateValue, finish }) => {
 
   // finish를 받으면 데이터 초기화 즉, 체크표시 초기화 되도록 하기 위한 코드
   useEffect(() => {
-    setList(data)
+    let updateData = data.map((item) => {
+      return {
+        value: item.value,
+        isChecked: false,
+      }
+    })
+    setList(updateData)
+    setValue("")
+    updateValue("")
   }, [finish])
 
   // checkBoxShape의 item과 index는 선택한 요소의 정보만 나온다
