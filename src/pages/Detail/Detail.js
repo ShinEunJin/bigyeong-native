@@ -28,7 +28,6 @@ const Detail = (props) => {
     setLike(data.likes)
     // 유저 정보를 가져와서 이미 좋아요가 되어있는지 판단
     let checkAlreadyLike = await checkLike(item)
-    console.log(checkAlreadyLike)
     setAlreadyLike(checkAlreadyLike)
   }
 

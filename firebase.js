@@ -10,7 +10,11 @@ var firebaseConfig = {
   measurementId: "G-QTNPJY31WP",
 }
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig)
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig)
+} else {
+  firebase.app()
+}
 
 export const firestore = firebase.firestore()
 export const storage = firebase.storage()

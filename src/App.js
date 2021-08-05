@@ -15,7 +15,6 @@ import {
 import { createStackNavigator } from "@react-navigation/stack"
 import { createDrawerNavigator } from "@react-navigation/drawer"
 import MenuIcon from "react-native-vector-icons/Entypo"
-import NetInfo from "@react-native-community/netinfo"
 
 import BottomTab from "./Navigator/BottomTab"
 import SideDrawer from "./Navigator/SideDrawer"
@@ -31,11 +30,6 @@ function App() {
   // 원래는 ios만 사용하려 했으나 안드로이드 키를 굳이 쓸 필요도 없고 플랫폼 별로 다르게 쓰면 번거로우니
   // secure store key로 통일, ./utils/generateKey 참조
   generateSecureKey()
-
-  NetInfo.fetch().then((state) => {
-    console.log("Connection type", state.type)
-    console.log("Is connected?", state.isConnected)
-  })
 
   // 이 코드들이 없으면 Setting Time Warning이 뜬다.
   //#region ERROR Solution: Setting a timer for a long period of time, i.e. multiple minutes,

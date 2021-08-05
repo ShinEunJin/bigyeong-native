@@ -1,5 +1,6 @@
 import * as firebase from "firebase"
 import * as SecureStore from "expo-secure-store"
+import NetInfo from "@react-native-community/netinfo"
 
 import { firestore } from "../../../firebase"
 
@@ -16,7 +17,14 @@ export const updateView = async (item) => {
     const data = await doc.data()
     return data
   } catch (error) {
-    return alert("데이터를 불러오는데 실패하였습니다.")
+    console.log(error)
+    NetInfo.fetch().then((state) => {
+      if (state.isConnected === false)
+        return alert("네트워크 연결을 확인해 주시기 바랍니다")
+    })
+    const doc = await placeRef.get()
+    const data = await doc.data()
+    return data || null
   }
 }
 
@@ -56,12 +64,20 @@ export const updateLike = async (item, alreadyLike) => {
     const likes = doc.data().likes
     return likes
   } catch (error) {
+    if (!userRef)
+      return alert(
+        "유저 정보를 확인 할 수 없습니다 네트워크 연결을 확인해 주시기 바랍니다"
+      )
+    if (!placeRef)
+      return alert(
+        "컨텐츠 정보를 찾을 수 없습니다 네트워크 연결을 확인해 주시기 바랍니다"
+      )
     console.log(error)
     return alert("좋아요를 누르는데 실패하였습니다.")
   }
 }
 
-// 좋아요 상태 확인
+// 처음 좋아요 상태 확인
 export const checkLike = async (item) => {
   let content = `${item.category}_${item.region}_${item.id}`
   const userId = await SecureStore.getItemAsync("key")
@@ -79,5 +95,9 @@ export const checkLike = async (item) => {
     return result
   } catch (error) {
     console.log(error)
+    if (!userId || !userRef)
+      return alert(
+        "유저 정보를 확인 할 수 없습니다 네트워크 연결을 확인해 주시기 바랍니다"
+      )
   }
 }
