@@ -14,6 +14,7 @@ import FindByMap from "../pages/Find/FindByMap"
 import TopTab from "./TopTab"
 import Upload from "../pages/Upload/Upload"
 import Like from "../pages/Like/Like"
+import Profile from "../pages/Profile/Profile"
 
 const Tab = createBottomTabNavigator()
 
@@ -84,6 +85,7 @@ const BottomTab = () => {
       {/* TabBar에 없는 컴포넌트 */}
       <Tab.Screen name="Upload" component={Upload} />
       <Tab.Screen name="Like" component={Like} />
+      <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   )
 }

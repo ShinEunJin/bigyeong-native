@@ -1,13 +1,19 @@
-import React from "react"
+import React, { useState } from "react"
 import { SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native"
 import { themeColor } from "../../theme"
 
 const FindBySearch = () => {
+  const [searchTerm, setSearchTerm] = useState("")
+
   return (
     <View style={styles.mainContainer}>
       <Text style={{ color: "white" }}>FindBySearch</Text>
       <SafeAreaView>
-        <TextInput style={styles.inputStyle} />
+        <TextInput
+          style={styles.inputStyle}
+          value={searchTerm}
+          onChangeText={setSearchTerm}
+        />
       </SafeAreaView>
     </View>
   )

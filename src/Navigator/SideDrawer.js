@@ -50,7 +50,7 @@ const SideDrawer = () => {
           </View>
           {/* 올린 사진 */}
           <View style={styles.navItemStyle}>
-            <Text>프로필</Text>
+            <Text onPress={() => navigation.navigate("Profile")}>프로필</Text>
           </View>
         </View>
         {/* Setting Section */}

@@ -7,6 +7,7 @@ import {
   Button,
   TouchableHighlight,
   Image,
+  ActivityIndicator,
 } from "react-native"
 import * as SecureStore from "expo-secure-store"
 import NetInfo from "@react-native-community/netinfo"
@@ -21,11 +22,13 @@ const Like = () => {
   const [likes, setLikes] = useState([])
   // 새로고침 버튼 보이게 하기위한 state
   const [error, setError] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const navigation = useNavigation()
   const isFocused = useIsFocused()
 
   const getData = async () => {
+    setLoading(true)
     try {
       // 유저 정보 가져오기
       const userId = await SecureStore.getItemAsync("key")
@@ -53,6 +56,8 @@ const Like = () => {
           )
       })
       alert("데이터를 불러오는데 실패하였습니다")
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -77,40 +82,63 @@ const Like = () => {
   }
 
   return (
-    <View style={styles.mainContainer}>
-      {/* 좋아요 장소가 있을 때 */}
-      {likes.length > 0 ? (
-        <FlatList
-          data={likes}
-          keyExtractor={(_, index) => index.toString()}
-          renderItem={renderItem}
-        />
+    <>
+      {loading ? (
+        <View style={styles.loadingMainContainer}>
+          <ActivityIndicator color="white" size="large" />
+        </View>
       ) : (
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        >
-          {error ? (
-            /* 에러 시 */
-            <>
-              <Text style={styles.textStyle}>
-                데이터를 불러올 수 없습니다 {"\n"}네트워크 연결을 확인해
-                주십시오
-              </Text>
-              <Button title="새로고침" color="blue" onPress={() => getData()} />
-            </>
+        /* 로딩 끝난 후 */
+        <View style={styles.mainContainer}>
+          {/* 좋아요 장소가 있을 때 */}
+          {likes.length > 0 ? (
+            <FlatList
+              data={likes}
+              keyExtractor={(_, index) => index.toString()}
+              renderItem={renderItem}
+            />
           ) : (
-            /* 좋아요 장소가 없을 때 */
-            <Text style={styles.textStyle}>
-              좋아요를 등록한 장소가 없습니다
-            </Text>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {error ? (
+                /* 에러 시 */
+                <>
+                  <Text style={styles.textStyle}>
+                    데이터를 불러올 수 없습니다 {"\n"}네트워크 연결을 확인해
+                    주십시오
+                  </Text>
+                  <Button
+                    title="새로고침"
+                    color="blue"
+                    onPress={() => getData()}
+                  />
+                </>
+              ) : (
+                /* 좋아요 장소가 없을 때 */
+                <Text style={styles.textStyle}>
+                  좋아요를 등록한 장소가 없습니다
+                </Text>
+              )}
+            </View>
           )}
         </View>
       )}
-    </View>
+    </>
   )
 }
 
 const styles = StyleSheet.create({
+  loadingMainContainer: {
+    flex: 1,
+    backgroundColor: themeColor.defaultBackgroundColor,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   mainContainer: {
     backgroundColor: themeColor.defaultBackgroundColor,
     flex: 1,
