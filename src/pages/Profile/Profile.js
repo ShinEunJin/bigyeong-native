@@ -8,13 +8,17 @@ import {
   FlatList,
   TouchableHighlight,
   Button,
+  Pressable,
+  Alert,
 } from "react-native"
 import { useIsFocused, useNavigation } from "@react-navigation/native"
 import * as SecureStore from "expo-secure-store"
+import Icon from "react-native-vector-icons/FontAwesome"
 import NetInfo from "@react-native-community/netinfo"
 
 import { themeColor } from "../../theme"
 import { firestore } from "../../../firebase"
+import { deleteContent } from "./logic"
 
 const Profile = () => {
   const navigation = useNavigation()
@@ -34,7 +38,7 @@ const Profile = () => {
       const userDoc = await userRef.get()
       const uploadId = userDoc.data().uploads
       // 업로드한 컨텐츠가 없을 때
-      if (uploadId.length === 0) return
+      if (uploadId.length === 0) return setContents([])
       // firestore에서 해당 id를 가진 문서 가져오기
       let uploadList = []
       const placeRef = firestore.collection("places")
@@ -57,6 +61,24 @@ const Profile = () => {
     }
   }
 
+  const onDeleteConfirm = async (item) => {
+    Alert.alert("", "Are you sure you want to delete it?", [
+      {
+        text: "delete",
+        onPress: async () => {
+          await deleteContent(item)
+          await getData()
+        },
+        style: "default",
+      },
+      {
+        text: "cancel",
+        onPress: (item) => console.log("what"),
+        style: "cancel",
+      },
+    ])
+  }
+
   useEffect(() => {
     getData()
   }, [isFocused])
@@ -69,6 +91,12 @@ const Profile = () => {
       >
         <View style={styles.imageContainer}>
           <Image style={styles.image} source={{ uri: item.uri }} />
+          <Pressable
+            onPress={() => onDeleteConfirm(item)}
+            style={styles.iconStyle}
+          >
+            <Icon color="black" name="trash" size={18} />
+          </Pressable>
         </View>
       </TouchableHighlight>
     )
@@ -111,13 +139,16 @@ const Profile = () => {
                   <Button
                     title="새로고침"
                     color="blue"
-                    onPress={() => getData()}
+                    onPress={() => {
+                      setError(false)
+                      getData()
+                    }}
                   />
                 </>
               ) : (
                 /* 좋아요 장소가 없을 때 */
                 <Text style={styles.textStyle}>
-                  좋아요를 등록한 장소가 없습니다
+                  업로드한 컨텐츠가 없습니다.
                 </Text>
               )}
             </View>
@@ -162,6 +193,7 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingVertical: 20,
     marginBottom: 100,
+    position: "relative",
   },
   image: {
     width: "100%",
@@ -173,6 +205,17 @@ const styles = StyleSheet.create({
     color: themeColor.defaultFontColor,
     textAlign: "center",
     marginBottom: 10,
+  },
+  iconStyle: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    width: 30,
+    height: 30,
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
   },
 })
 

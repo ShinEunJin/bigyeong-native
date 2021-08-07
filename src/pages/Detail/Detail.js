@@ -8,6 +8,7 @@ import {
   Dimensions,
 } from "react-native"
 import Icon from "react-native-vector-icons/FontAwesome"
+import { useNavigation } from "@react-navigation/native"
 
 import { themeColor } from "../../theme"
 import { updateView, updateLike, checkLike } from "./info" // 여기서 조회수 및 좋아요 데이터를 받는다
@@ -21,9 +22,19 @@ const Detail = (props) => {
 
   const screenHeight = Dimensions.get("screen").height
 
+  const navigation = useNavigation()
+
   const getData = async () => {
     // 조회수 1증가
     const data = await updateView(item)
+    if (data === "error") {
+      alert("데이터를 불러 올 수 없습니다")
+      return navigation.navigate("Home")
+    }
+    if (!data) {
+      alert("이미 삭제된 컨텐츠입니다")
+      return navigation.navigate("Home")
+    }
     setPlace(data)
     setLike(data.likes)
     // 유저 정보를 가져와서 이미 좋아요가 되어있는지 판단

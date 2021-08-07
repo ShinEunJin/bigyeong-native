@@ -17,14 +17,14 @@ export const updateView = async (item) => {
     const data = await doc.data()
     return data
   } catch (error) {
-    console.log(error)
     NetInfo.fetch().then((state) => {
       if (state.isConnected === false)
         return alert("네트워크 연결을 확인해 주시기 바랍니다")
     })
+    if (error) return "error"
     const doc = await placeRef.get()
     const data = await doc.data()
-    return data || null
+    return data
   }
 }
 
