@@ -32,6 +32,8 @@ const Like = () => {
     try {
       // 유저 정보 가져오기
       const userId = await SecureStore.getItemAsync("key")
+      console.log(userId)
+      if (!userId) return
       const userRef = firestore.collection("users").doc(userId)
       const doc = await userRef.get()
       const userLikes = doc.data().likes
