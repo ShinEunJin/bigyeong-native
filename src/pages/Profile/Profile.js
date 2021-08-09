@@ -73,7 +73,6 @@ const Profile = () => {
       },
       {
         text: "cancel",
-        onPress: (item) => console.log("what"),
         style: "cancel",
       },
     ])

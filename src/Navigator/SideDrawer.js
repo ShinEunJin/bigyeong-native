@@ -53,14 +53,14 @@ const SideDrawer = () => {
             <Text onPress={() => navigation.navigate("Profile")}>프로필</Text>
           </View>
         </View>
-        {/* Setting Section */}
+        {/* Info Section */}
         <View style={styles.MenuColumn}>
           <View style={styles.iconContainer}>
-            <Icon name="cog" size={30} />
+            <Icon name="info-circle" size={30} />
           </View>
-          {/* 환경설정 */}
+          {/* Info */}
           <View style={styles.navItemStyle}>
-            <Text>Setting</Text>
+            <Text onPress={() => navigation.navigate("Info")}>앱 정보</Text>
           </View>
         </View>
       </ScrollView>

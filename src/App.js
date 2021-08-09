@@ -21,6 +21,7 @@ import SideDrawer from "./Navigator/SideDrawer"
 import logo from "../logo1.png"
 import Detail from "./pages/Detail/Detail"
 import generateSecureKey from "./utils/generateKey"
+import Info from "./pages/Info/Info"
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -155,6 +156,14 @@ function App() {
           }}
           name="Detail"
           component={Detail}
+        />
+        <Stack.Screen
+          options={{
+            headerTitle: () => null,
+            headerTransparent: true,
+          }}
+          name="Info"
+          component={Info}
         />
       </Stack.Navigator>
     </NavigationContainer>
